@@ -1,0 +1,81 @@
+.App {
+    text-align: center;
+    background-color: #1e1e1e;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.start-screen,
+.quiz,
+.result,
+.report {
+    background-color: #333;
+    padding: 20px;
+    border-radius: 8px;
+    width: 400px;
+    margin: auto;
+    color: #fff;
+}
+
+.start-screen h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+button {
+    display: block;
+    margin: 10px auto;
+    padding: 10px 20px;
+    background-color: #555;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #777;
+}
+
+.question {
+    margin-bottom: 20px;
+}
+
+.options button {
+    display: block;
+    margin: 5px 0;
+    width: 100%;
+    padding: 10px;
+    background-color: #555;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+}
+
+.options button:hover {
+    background-color: white;
+    color: black;
+}
+
+.option-button {
+    padding: 10px 20px;
+    margin: 5px 0;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #444;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+.option-button:hover {
+    background-color: rgba(255, 255, 255, 0.367);
+}
+
+.option-button.selected {
+    /* Highlight color for the selected option */
+    border: 2px solid white;
+}
