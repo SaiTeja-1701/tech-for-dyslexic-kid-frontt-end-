@@ -8,8 +8,6 @@
 
 body {
     font-family: Arial, sans-serif;
-    background-color: #f0f8ff;
-    color: #333;
 }
 
 
@@ -118,4 +116,5 @@ body {
     height: auto;
     border-radius: 10px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    
 }

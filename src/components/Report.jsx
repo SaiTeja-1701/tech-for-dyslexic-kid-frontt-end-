@@ -59,6 +59,12 @@ import Graphs from './Graphs';
 
 const Report = ({ onBack, adminData }) => {
   const [selectedSession, setSelectedSession] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  // Filter adminData based on the search query
+  const filteredData = adminData.filter(data =>
+    data.username.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <div className="report">
@@ -67,6 +73,15 @@ const Report = ({ onBack, adminData }) => {
       ) : (
         <>
           <h2>Admin Report</h2>
+
+          {/* Search Input */}
+          <input
+            type="text"
+            placeholder="Search by username"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+
           <table>
             <thead>
               <tr>
@@ -81,7 +96,7 @@ const Report = ({ onBack, adminData }) => {
               </tr>
             </thead>
             <tbody>
-              {adminData.map((data, index) => (
+              {filteredData.map((data, index) => (
                 <tr key={index}>
                   <td>{index + 1}</td>
                   <td>{data.username}</td>

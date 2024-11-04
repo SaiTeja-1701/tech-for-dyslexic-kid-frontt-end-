@@ -6,7 +6,7 @@ const Quiz = ({ level, onQuizEnd }) => {
   const [questionIndex, setQuestionIndex] = useState(0);
   const [score, setScore] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
-  const [time, setTime] = useState(25);
+  const [time, setTime] = useState(15);
   const [shuffledQuestions, setShuffledQuestions] = useState([]);
 
   useEffect(() => {
@@ -34,7 +34,7 @@ const Quiz = ({ level, onQuizEnd }) => {
 
     setSelectedAnswer(null);
     setQuestionIndex(questionIndex + 1);
-    setTime(25);
+    setTime(15);
 
     if (questionIndex + 1 === shuffledQuestions.length) {
       // End quiz and show result when last question is reached

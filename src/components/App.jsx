@@ -145,7 +145,7 @@ function App() {
   };
 
   return (
-    <div className="App">
+    <div className="App" >
       {view === 'start' && <StartScreen onStartQuiz={startQuiz} onAdminLogin={handleAdminLogin} />}
       {view === 'quiz' && !showResult && <Quiz level={level} onQuizEnd={handleQuizEnd} />}
       {view === 'result' && showResult && <Result score={score} onNextLevel={nextLevel} />}
