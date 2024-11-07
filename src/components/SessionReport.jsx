@@ -1,32 +1,40 @@
-// src/components/SessionReport.js
 import React from 'react';
 import { Bar } from 'react-chartjs-2';
 
 const SessionReport = ({ session }) => {
   const data = {
-    labels: ['Level 1', 'Level 2', 'Level 3'],
+    labels: ['Quiz', 'Animal Game', 'Memory Game'],
     datasets: [
       {
         label: 'Scores',
-        data: [session.level1Score, session.level2Score, session.level3Score],
-        backgroundColor: ['#4caf50', '#ffa726', '#42a5f5'],
-      },
-    ],
+        data: [
+          session.quizScores.reduce((a, b) => a + b, 0), // Total Quiz score
+          session.animalGameScore,
+          session.memoryGameScore
+        ],
+        backgroundColor: ['#4CAF50', '#FF7043', '#42A5F5']
+      }
+    ]
   };
 
   const options = {
+    responsive: true,
     scales: {
       y: {
-        beginAtZero: true,
-        max: 100,
-      },
-    },
+        beginAtZero: true
+      }
+    }
   };
 
   return (
-    <div style={{ marginTop: '20px' }}>
-      <h4>Session ID: {session.sessionId}</h4>
+    <div className="session-report">
+      <h3>Session ID: {session.sessionId}</h3>
       <Bar data={data} options={options} />
+      <div>
+        <p>Quiz Total Score: {session.quizScores.reduce((a, b) => a + b, 0)}</p>
+        <p>Animal Game Score: {session.animalGameScore}</p>
+        <p>Memory Game Score: {session.memoryGameScore}</p>
+      </div>
     </div>
   );
 };

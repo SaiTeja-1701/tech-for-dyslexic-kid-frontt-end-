@@ -1,155 +1,75 @@
-// At the beginning of your main file (e.g., App.jsx or index.jsx)
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend
-} from 'chart.js';
-import { Bar } from 'react-chartjs-2';
-
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
-
-// import React, { useState } from 'react';
-// // import Login from './Login';
-// import StartScreen from './StartScreen';
-// import Quiz from './Quiz';
-// import Result from './Result';
-// import Report from './Report';
-// import '../styles/App.css';
-
-// function App() {
-//   const [level, setLevel] = useState(1);
-//   const [showResult, setShowResult] = useState(false);
-//   const [score, setScore] = useState(0);
-//   const [view, setView] = useState('start'); // 'start', 'quiz', 'result', 'report'
-
-//   const handleQuizEnd = (finalScore) => {
-//     setScore(finalScore);
-//     setShowResult(true);
-//     setView('result'); // Ensure result view is shown
-//   };
-
-//   const nextLevel = () => {
-//     if (level < 3) {
-//       setLevel(level + 1);
-//       setShowResult(false);
-//       setView('quiz');
-//     } else {
-//       alert("You've completed all levels!");
-//       setView('start');
-//     }
-//   };
-
-//   const startQuiz = () => {
-//     setLevel(1);
-//     setScore(0);
-//     setShowResult(false);
-//     setView('quiz');
-//   };
-
-//   return (
-//     <div className="App">
-//       {view === 'start' && <StartScreen onStartQuiz={startQuiz} onViewReport={() => setView('report')} />}
-//       {view === 'quiz' && !showResult && <Quiz level={level} onQuizEnd={handleQuizEnd} />}
-//       {view === 'result' && showResult && <Result score={score} onNextLevel={nextLevel} />}
-//       {view === 'report' && <Report onBack={() => setView('start')} />}
-//     </div>
-//   );
-// }
-
-// export default App;
-
-
-
-
-// App.jsx
 import React, { useState } from 'react';
 import StartScreen from './StartScreen';
 import Quiz from './Quiz';
-import Result from './Result';
+import AnimalGame from './AnimalGame';
+import MemoryGame from './MemoryGame';
 import Report from './Report';
+import { v4 as uuidv4 } from 'uuid'; // Import UUID library for unique session IDs
 import '../styles/App.css';
 
-const generateSessionId = () => {
-  return Math.floor(10000 + Math.random() * 90000).toString(); // Generates a 5-digit number
-};
-
 function App() {
-  const [level, setLevel] = useState(1);
-  const [showResult, setShowResult] = useState(false);
-  const [score, setScore] = useState(0);
-  const [view, setView] = useState('start'); // 'start', 'quiz', 'result', 'report'
-  const [session, setSession] = useState({
+  const [gameStage, setGameStage] = useState('start');
+  const [currentSessionData, setCurrentSessionData] = useState({
     sessionId: '',
-    username: '',
-    level1Score: 0,
-    level2Score: 0,
-    level3Score: 0,
+    quizScores: [],
+    animalGameScore: 0,
+    memoryGameScore: 0
   });
-  const [adminLoggedIn, setAdminLoggedIn] = useState(false);
-  const [adminData, setAdminData] = useState([]);
+  const [allSessions, setAllSessions] = useState([]); // Array to hold all session data
 
-  const handleQuizEnd = (finalScore) => {
-    setScore(finalScore);
-    setShowResult(true);
-    setView('result'); // Ensure result view is shown
-  };
-
-  const nextLevel = () => {
-    if (level < 3) {
-      setLevel(level + 1);
-      setShowResult(false);
-      setSession({
-        ...session,
-        [`level${level}Score`]: score,
-      });
-      setView('quiz');
-    } else {
-      alert("You've completed all levels!");
-      setAdminData([...adminData, {
-        sessionId: session.sessionId,
-        username: session.username,
-        level1Score: session.level1Score,
-        level2Score: session.level2Score,
-        level3Score: score,
-        score: session.level1Score + session.level2Score + score,
-      }]);
-      setView('start');
-    }
-  };
-
-  const startQuiz = (username) => {
-    setSession({
-      sessionId: generateSessionId(),
-      username: username,
-      level1Score: 0,
-      level2Score: 0,
-      level3Score: 0,
+  // Start a new game session with a unique session ID
+  const handleStartQuiz = () => {
+    const newSessionId = uuidv4(); // Generate unique session ID
+    setCurrentSessionData({
+      sessionId: newSessionId,
+      quizScores: [],
+      animalGameScore: 0,
+      memoryGameScore: 0
     });
-    setLevel(1);
-    setScore(0);
-    setShowResult(false);
-    setView('quiz');
+    setGameStage('quiz');
   };
 
-  const handleAdminLogin = (adminId, adminPassword) => {
-    if (adminId === '123' && adminPassword === '123') {
-      setAdminLoggedIn(true);
-      setView('report');
-    } else {
-      alert('Invalid Admin Credentials');
-    }
+  // Admin Login - navigate to Report screen
+  const handleAdminLogin = () => {
+    setGameStage('report');
+  };
+
+  // End of Quiz, move to Level 2: Animal Game
+  const handleQuizEnd = (score) => {
+    setCurrentSessionData((prev) => ({
+      ...prev,
+      quizScores: [...prev.quizScores, score]
+    }));
+    setGameStage('animalGame');
+  };
+
+  // End of Animal Game, move to Level 3: Memory Game
+  const handleAnimalGameEnd = (score) => {
+    setCurrentSessionData((prev) => ({ ...prev, animalGameScore: score }));
+    setGameStage('memoryGame');
+  };
+
+  // End of Memory Game, save session data and show Report
+  const handleMemoryGameEnd = (score) => {
+    const completedSessionData = {
+      ...currentSessionData,
+      memoryGameScore: score
+    };
+
+    // Add the completed session to allSessions
+    setAllSessions((prev) => [...prev, completedSessionData]);
+    setGameStage('report');
   };
 
   return (
-    <div className="App" >
-      {view === 'start' && <StartScreen onStartQuiz={startQuiz} onAdminLogin={handleAdminLogin} />}
-      {view === 'quiz' && !showResult && <Quiz level={level} onQuizEnd={handleQuizEnd} />}
-      {view === 'result' && showResult && <Result score={score} onNextLevel={nextLevel} />}
-      {view === 'report' && adminLoggedIn && <Report onBack={() => setView('start')} adminData={adminData} />}
+    <div className="app">
+      {gameStage === 'start' && (
+        <StartScreen onStartQuiz={handleStartQuiz} onAdminLogin={handleAdminLogin} />
+      )}
+      {gameStage === 'quiz' && <Quiz onQuizEnd={handleQuizEnd} />}
+      {gameStage === 'animalGame' && <AnimalGame onFinish={handleAnimalGameEnd} />}
+      {gameStage === 'memoryGame' && <MemoryGame onFinish={handleMemoryGameEnd} />}
+      {gameStage === 'report' && <Report allSessions={allSessions} />}
     </div>
   );
 }

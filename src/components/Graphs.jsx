@@ -1,55 +1,57 @@
-// Graphs.jsx
+// Graphs.js
 import React from 'react';
 import { Bar } from 'react-chartjs-2';
+import { Chart as ChartJS, BarElement, CategoryScale, LinearScale, Title, Tooltip, Legend } from 'chart.js';
 
-const Graphs = ({ sessionData, onBack }) => {
-  const performanceData = {
-    labels: ['Level 1', 'Level 2', 'Level 3'],
+ChartJS.register(BarElement, CategoryScale, LinearScale, Title, Tooltip, Legend);
+
+const Graphs = ({ labels, scores }) => {
+  const data = {
+    labels: labels,
     datasets: [
       {
-        label: `Session ${sessionData.sessionId}`,
-        data: [
-          sessionData.level1Score,
-          sessionData.level2Score,
-          sessionData.level3Score,
+        label: 'Scores',
+        data: scores,
+        backgroundColor: [
+          '#FF5733',
+          '#33FF57',
+          '#3357FF',
+          '#FF33A6',
+          '#F3FF33',
         ],
-        backgroundColor: `rgba(75, 192, 192, 0.2)`,
-        borderColor: `rgba(75, 192, 192, 1)`,
-        borderWidth: 1,
-      },
-    ],
-  };
-
-  const expressionData = {
-    labels: ['Happy', 'Sad', 'Anger', 'Neutral'],
-    datasets: [
-      {
-        label: 'Expression Tally',
-        data: [15, 5, 2, 8], // Preset values
-        backgroundColor: `rgba(255, 99, 132, 0.2)`,
-        borderColor: `rgba(255, 99, 132, 1)`,
-        borderWidth: 1,
       },
     ],
   };
 
   const options = {
+    responsive: true,
+    plugins: {
+      legend: {
+        display: false,
+      },
+      title: {
+        display: true,
+        text: 'Scores by Activity',
+      },
+    },
     scales: {
       y: {
         beginAtZero: true,
+        title: {
+          display: true,
+          text: 'Score',
+        },
+      },
+      x: {
+        title: {
+          display: true,
+          text: 'Activity',
+        },
       },
     },
   };
 
-  return (
-    <div className="graphs">
-      <h3>Performance Across Levels</h3>
-      <Bar data={performanceData} options={options} />
-      <h3>Expression Tally</h3>
-      <Bar data={expressionData} options={options} />
-      <button onClick={onBack}>Back to Report</button>
-    </div>
-  );
+  return <Bar data={data} options={options} />;
 };
 
 export default Graphs;

@@ -2,118 +2,81 @@
     text-align: center;
     background-image: url('/src/assets/classmates-friends-bag-school-education.jpg'); 
     background-size: cover;           
-    background-position: center;      /* Centers the image */
-    background-repeat: no-repeat;     /* Prevents repetition */
-    min-height: 100vh;                /* Ensures at least full viewport height */
-    width: 100vw;                     /* Ensures full viewport width */
-    display: flex;                    /* Flexbox for centering content */
-    align-items: center;              /* Center content vertically */
-    justify-content: center;          /* Center content horizontally */
-    color: #fff;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-family: Arial, sans-serif;
-    min-height: 88vh;
     padding: 20px;
-
 }
 
-.start-screen{
-    background-image: url('src/assets/image-from-rawpixel-id-3061864-jpeg.jpg'); /* Your existing background */
-    background-size: cover;           /* Makes the image cover the viewport */
-    background-position: center;      /* Centers the image */
-    background-repeat: no-repeat;     /* Prevents repetition */
-    min-height: 50vh;                /* Ensures at least full viewport height */
-    width: 100vw;                     /* Ensures full viewport width */
-    display: inline-flexbox;                    /* Flexbox for centering content */
-    align-items: center;              /* Center content vertically */
-    justify-content: center;          /* Center content horizontally */
-    padding-top: 100px;
-    border-radius: 10px;
+.start-screen {
+    background: rgba(255, 255, 255, 0.9); /* Semi-transparent white background */
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Adds a subtle shadow */
     width: 400px;
-    margin: auto;
-    color:#4caf50;
+    text-align: center;
+    color: #333;
 }
-.quiz{
-    z-index: 0;
-    min-height: 50vh;                /* Ensures at least full viewport height */
-    min-width: 50vw;
-    background: white;
-    padding: 20px;
-    margin: auto;
-    color: #4caf50;  
-    border-radius: 8px;
-}
-.result,.report{
-    background-color: white;
-    padding: 20px;
-    margin: auto;
-    color: #4caf50;  
-    border-radius: 8px; 
-}
+
 .start-screen h1 {
-    font-size: 2rem;
+    font-size: 2.5rem;
+    color: #4caf50;
     margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.admin-login {
+    text-align: left; /* Aligns the input labels to the left */
+}
+
+label {
+    display: block;
+    margin: 10px 0 5px;
+    font-weight: bold;
+    color: #4caf50;
+}
+
+input[type="text"], input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
 }
 
 button {
-    height: 50px;                /* Ensures at least full viewport height */
-    width: 150px;
-    display: block;
-    margin: 10px auto;
-    padding: 10px 20px;
-    background-color: #4caf50;
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
     border: none;
-    border-radius: 30px;
-    color: #fff;
+    background-color: #4caf50;
+    color: white;
+    font-size: 1rem;
     cursor: pointer;
-    
+    margin-top: 10px;
 }
 
 button:hover {
     background-color: #388e3c;
 }
 
-.question {
-    margin-bottom: 20px;
-}
-
-.options button {
-    height: 50px;                /* Ensures at least full viewport height */
+.play-button, .admin-button {
+    margin: 10px auto;
     width: 150px;
-    display: block;
-    margin: 5px 0;
-    width: 100%;
-    padding: 10px;
+    height: 40px;
+    border-radius: 8px;
     background-color: #4caf50;
-    border: none;
-    border-radius: 5px;
-    color: #fff;
+    color: white;
+    font-size: 1rem;
     cursor: pointer;
+    display: inline-block;
 }
 
-.options button:hover {
+.play-button:hover, .admin-button:hover {
     background-color: #388e3c;
-    color: #fff;
-}
-
-.option-button {
-    height: 50px;                /* Ensures at least full viewport height */
-    width: 150px;
-    padding: 10px 20px;
-    margin: 5px 0;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    background-color: #4caf50;
-    color: white;
-    transition: background-color 0.3s ease;
-}
-
-.option-button:hover {
-    background-color:  #388e3c;
-}
-
-.option-button.selected {
-    /* Highlight color for the selected option */
-    background-color: rgb(86, 128, 25);
-    color: white;
 }

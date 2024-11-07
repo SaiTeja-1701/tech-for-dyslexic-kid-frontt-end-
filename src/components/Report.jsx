@@ -1,121 +1,42 @@
-// import React from 'react';
-// import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-
-// const Report = ({ onBack }) => {
-//   // Initialize constant values for student performance
-//   const performanceData = [
-//     { level: 'Level 1', score: 75 },
-//     { level: 'Level 2', score: 85 },
-//     { level: 'Level 3', score: 65 },
-//   ];
-
-//   // Initialize constant values for student expressions
-//   const expressionData = [
-//     { expression: 'Happy', tally: 15 },
-//     { expression: 'Sad', tally: 5 },
-//     { expression: 'Anger', tally: 2 },
-//     { expression: 'Neutral', tally: 8 },
-//   ];
-
-//   return (
-//     <div className="report">
-//       <h2>Student Report</h2>
-      
-//       {/* Performance Bar Graph */}
-//       <h3>Performance Across Levels</h3>
-//       <ResponsiveContainer width="100%" height={300}>
-//         <BarChart data={performanceData} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
-//           <CartesianGrid strokeDasharray="3 3" />
-//           <XAxis dataKey="level" />
-//           <YAxis />
-//           <Tooltip />
-//           <Legend />
-//           <Bar dataKey="score" fill="#8884d8" />
-//         </BarChart>
-//       </ResponsiveContainer>
-
-//       {/* Expression Tally Bar Graph */}
-//       <h3>Expression Tally</h3>
-//       <ResponsiveContainer width="100%" height={300}>
-//         <BarChart data={expressionData} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
-//           <CartesianGrid strokeDasharray="3 3" />
-//           <XAxis dataKey="expression" />
-//           <YAxis />
-//           <Tooltip />
-//           <Legend />
-//           <Bar dataKey="tally" fill="#82ca9d" />
-//         </BarChart>
-//       </ResponsiveContainer>
-
-//       <button onClick={onBack}>Back to Start</button>
-//     </div>
-//   );
-// };
-
-// export default Report;
-// Report.jsx
 import React, { useState } from 'react';
-import Graphs from './Graphs';
+import SessionReport from './SessionReport';
 
-const Report = ({ onBack, adminData }) => {
+const Report = ({ allSessions }) => {
   const [selectedSession, setSelectedSession] = useState(null);
-  const [searchQuery, setSearchQuery] = useState("");
-
-  // Filter adminData based on the search query
-  const filteredData = adminData.filter(data =>
-    data.username.toLowerCase().includes(searchQuery.toLowerCase())
-  );
 
   return (
     <div className="report">
-      {selectedSession ? (
-        <Graphs sessionData={selectedSession} onBack={() => setSelectedSession(null)} />
-      ) : (
-        <>
-          <h2>Admin Report</h2>
+      <h1>All Sessions</h1>
+      <table>
+        <thead>
+          <tr>
+            <th>Session ID</th>
+            <th>Quiz Total Score</th>
+            <th>Animal Game Score</th>
+            <th>Memory Game Score</th>
+            <th>View Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          {allSessions.map((session) => (
+            <tr key={session.sessionId}>
+              <td>{session.sessionId}</td>
+              <td>{session.quizScores.reduce((a, b) => a + b, 0)}</td>
+              <td>{session.animalGameScore}</td>
+              <td>{session.memoryGameScore}</td>
+              <td>
+                <button onClick={() => setSelectedSession(session)}>View Report</button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
 
-          {/* Search Input */}
-          <input
-            type="text"
-            placeholder="Search by username"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-
-          <table>
-            <thead>
-              <tr>
-                <th>S.No.</th>
-                <th>Username</th>
-                <th>Session ID</th>
-                <th>Level 1 Score</th>
-                <th>Level 2 Score</th>
-                <th>Level 3 Score</th>
-                <th>Total Score</th>
-                <th>Graphs</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredData.map((data, index) => (
-                <tr key={index}>
-                  <td>{index + 1}</td>
-                  <td>{data.username}</td>
-                  <td>{data.sessionId}</td>
-                  <td>{data.level1Score}</td>
-                  <td>{data.level2Score}</td>
-                  <td>{data.level3Score}</td>
-                  <td>{data.score}</td>
-                  <td>
-                    <button onClick={() => setSelectedSession(data)}>
-                      View Graphs
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          <button onClick={onBack}>Back to Start</button>
-        </>
+      {selectedSession && (
+        <div className="session-report-container">
+          <SessionReport session={selectedSession} />
+          <button onClick={() => setSelectedSession(null)}>Close Report</button>
+        </div>
       )}
     </div>
   );

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { questions } from '../data/questions';
 import Question from './Question';
-
-const Quiz = ({ level, onQuizEnd }) => {
+import { questions } from '../data/questions';
+import '../styles/Quiz.css';
+const Quiz = ({ onQuizEnd }) => {
   const [questionIndex, setQuestionIndex] = useState(0);
   const [score, setScore] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
@@ -10,14 +10,15 @@ const Quiz = ({ level, onQuizEnd }) => {
   const [shuffledQuestions, setShuffledQuestions] = useState([]);
 
   useEffect(() => {
-    // Shuffle the questions once on component mount
-    const levelQuestions = questions[`level${level}`]
+    // Shuffle and pick 5 questions from Level 1 set
+    const level1Questions = questions.level1
       .sort(() => 0.5 - Math.random())
       .slice(0, 5);
-    setShuffledQuestions(levelQuestions);
-  }, [level]);
+    setShuffledQuestions(level1Questions);
+  }, []);
 
   useEffect(() => {
+    // Timer for each question
     if (time === 0) handleNextQuestion();
     const timer = setInterval(() => {
       setTime((prevTime) => (prevTime > 0 ? prevTime - 1 : 0));
@@ -27,8 +28,7 @@ const Quiz = ({ level, onQuizEnd }) => {
   }, [time]);
 
   const handleNextQuestion = () => {
-    // Check answer only if selectedAnswer is not null
-    if (selectedAnswer && shuffledQuestions[questionIndex].answer === selectedAnswer) {
+    if (selectedAnswer === shuffledQuestions[questionIndex].answer) {
       setScore(score + 1);
     }
 
@@ -37,19 +37,18 @@ const Quiz = ({ level, onQuizEnd }) => {
     setTime(15);
 
     if (questionIndex + 1 === shuffledQuestions.length) {
-      // End quiz and show result when last question is reached
-      onQuizEnd(score + (selectedAnswer === shuffledQuestions[questionIndex].answer ? 1 : 0));
+      onQuizEnd(score);
     }
   };
 
   return (
     <div className="quiz">
       <h2>Question {questionIndex + 1} / {shuffledQuestions.length}</h2>
-      <p>Time: {time}s</p>
+      <p className="timer">Time: {time}s</p>
       {shuffledQuestions[questionIndex] && (
         <Question question={shuffledQuestions[questionIndex]} onAnswerSelect={setSelectedAnswer} />
       )}
-      <button onClick={handleNextQuestion}>Next</button>
+      <button className="next-button" onClick={handleNextQuestion} >Next</button>
     </div>
   );
 };
