@@ -29,7 +29,7 @@ const Quiz = ({ onQuizEnd }) => {
 
   const handleNextQuestion = () => {
     if (selectedAnswer === shuffledQuestions[questionIndex].answer) {
-      setScore(score + 1);
+      setScore(score + 2);
     }
 
     setSelectedAnswer(null);
@@ -54,3 +54,4 @@ const Quiz = ({ onQuizEnd }) => {
 };
 
 export default Quiz;
+// -******----------------------*****-------------------------------THE  ABOVE CHECKPOINT 1

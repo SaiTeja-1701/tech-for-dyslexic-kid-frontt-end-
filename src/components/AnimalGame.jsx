@@ -112,7 +112,7 @@ function AnimalGame({ onFinish }) {
             setCurrentLetterIndex((prevIndex) => prevIndex + 1);
 
             if (currentLetterIndex + 1 === currentAnimal.name.length) {
-              setScore((prevScore) => prevScore + 1);
+              setScore((prevScore) => prevScore + 5);
               if (score + 1 >= 5) {
                 setGameOver(true);
               } else {
@@ -171,3 +171,4 @@ function AnimalGame({ onFinish }) {
 }
 
 export default AnimalGame;
+// -******----------------------*****-------------------------------THE  ABOVE CHECKPOINT 1
